@@ -1,3 +1,5 @@
+
+//1.5
 package com.intiegames.divinecraft.helloclaydou;
 
 import org.bukkit.Bukkit;
@@ -21,14 +23,10 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-/**
- * Tipo: Plugin pré alpha sem performance SMP (Sem Com Performance)
- * Objetivo: Testar interação de player com um NPC (PIG/Claydou)
- * Resultado: O Player deve saudar o claydou.
- */
 public class HelloClaydou extends JavaPlugin implements Listener, CommandExecutor {
 
     private static final String CLAYDOU_INTERACTION_KEY = "claydou_interaction";
+    private static final String HAS_SEEN_PLAYER_KEY = "has_seen_player";
 
     @Override
     public void onEnable() {
@@ -68,8 +66,10 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
                     setInteractionState(entity, 3);
                     break;
                 case 3:
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Oi, já falei contigo, tenha um bom dia!");
-                    // Não resetar o estado para 0 para que o Claydou lembre que já viu o jogador
+                    if (!hasSeenPlayer(entity)) {
+                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Oi, já falei contigo, tenha um bom dia!");
+                        setSeenPlayer(entity);
+                    }
                     break;
                 default:
                     setInteractionState(entity, 0);
@@ -129,5 +129,21 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
 
     private void setInteractionState(Entity entity, int state) {
         entity.setMetadata(CLAYDOU_INTERACTION_KEY, new FixedMetadataValue(this, state));
+        if (state == 3) {
+            entity.setMetadata(HAS_SEEN_PLAYER_KEY, new FixedMetadataValue(this, false));
+        }
+    }
+
+    private boolean hasSeenPlayer(Entity entity) {
+        List<MetadataValue> metadata = entity.getMetadata(HAS_SEEN_PLAYER_KEY);
+        if (metadata.isEmpty()) {
+            return false;
+        } else {
+            return metadata.get(0).asBoolean();
+        }
+    }
+
+    private void setSeenPlayer(Entity entity) {
+        entity.setMetadata(HAS_SEEN_PLAYER_KEY, new FixedMetadataValue(this, true));
     }
 }
