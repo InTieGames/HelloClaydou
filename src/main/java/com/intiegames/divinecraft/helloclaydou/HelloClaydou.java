@@ -69,6 +69,7 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
                     if (!hasSeenPlayer(entity)) {
                         player.sendMessage(ChatColor.LIGHT_PURPLE + "Oi, já falei contigo, tenha um bom dia!");
                         setSeenPlayer(entity);
+                        setInteractionState(entity,0);
                     }
                     break;
                 default:
