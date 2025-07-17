@@ -14,6 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -37,7 +38,30 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
 
     @Override
     public void onDisable() {
+        // Clean up metadata for all entities when plugin is disabled
+        for (org.bukkit.World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                if (entity.hasMetadata(CLAYDOU_INTERACTION_KEY)) {
+                    entity.removeMetadata(CLAYDOU_INTERACTION_KEY, this);
+                }
+                if (entity.hasMetadata(HAS_SEEN_PLAYER_KEY)) {
+                    entity.removeMetadata(HAS_SEEN_PLAYER_KEY, this);
+                }
+            }
+        }
         getLogger().info("claydouCommunicationPlugin desabilitado.");
+    }
+    
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+        // Clean up metadata when entity dies
+        if (entity.hasMetadata(CLAYDOU_INTERACTION_KEY)) {
+            entity.removeMetadata(CLAYDOU_INTERACTION_KEY, this);
+        }
+        if (entity.hasMetadata(HAS_SEEN_PLAYER_KEY)) {
+            entity.removeMetadata(HAS_SEEN_PLAYER_KEY, this);
+        }
     }
 
     @EventHandler
@@ -93,12 +117,28 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
         if (command.getName().equalsIgnoreCase("claydou")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                Location loc = player.getLocation();
-                loc.add(2, 0, 0); // Adicionar 2 blocos de distância do jogador para a localização do novo porco
-                player.getWorld().spawnEntity(loc, EntityType.PIG);
-                player.sendMessage(ChatColor.LIGHT_PURPLE + "Um novo Claydou foi criado!");
+                
+                // Check if player has permission
+                if (!player.hasPermission("helloclaydou.spawn")) {
+                    player.sendMessage(ChatColor.RED + "Você não tem permissão para usar este comando.");
+                    return true;
+                }
+                
+                try {
+                    Location loc = player.getLocation();
+                    loc.add(2, 0, 0); // Adicionar 2 blocos de distância do jogador para a localização do novo porco
+                    player.getWorld().spawnEntity(loc, EntityType.PIG);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Um novo Claydou foi criado!");
+                } catch (Exception e) {
+                    player.sendMessage(ChatColor.RED + "Ocorreu um erro ao criar o Claydou.");
+                    getLogger().warning("Erro ao criar Claydou: " + e.getMessage());
+                }
                 return true;
             } else if (sender instanceof ConsoleCommandSender) {
+                sender.sendMessage("Este comando só pode ser usado por jogadores.");
+                return true;
+            } else {
+                // Handle other types of command senders
                 sender.sendMessage("Este comando só pode ser usado por jogadores.");
                 return true;
             }
@@ -119,6 +159,9 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
     }
 
     private int getInteractionState(Entity entity) {
+        if (!entity.hasMetadata(CLAYDOU_INTERACTION_KEY)) {
+            return 0;
+        }
         List<MetadataValue> metadata = entity.getMetadata(CLAYDOU_INTERACTION_KEY);
         if (metadata.isEmpty()) {
             return 0;
@@ -135,6 +178,9 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
     }
 
     private boolean hasSeenPlayer(Entity entity) {
+        if (!entity.hasMetadata(HAS_SEEN_PLAYER_KEY)) {
+            return false;
+        }
         List<MetadataValue> metadata = entity.getMetadata(HAS_SEEN_PLAYER_KEY);
         if (metadata.isEmpty()) {
             return false;

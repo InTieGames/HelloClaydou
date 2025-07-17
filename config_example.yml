@@ -1,0 +1,81 @@
+# HelloClaydou Configuration Example
+# This is an example configuration file for the HelloClaydou plugin.
+# Copy this file to 'config.yml' in the plugin's folder to use it.
+
+# General Settings
+settings:
+  # Enable or disable debug logging
+  debug: false
+  
+  # Language for plugin messages (en, pt_BR)
+  language: 'en'
+  
+  # Whether to log interactions with Claydou pigs
+  log-interactions: false
+
+# Spawn Settings
+spawn:
+  # Distance from player to spawn Claydou (blocks)
+  distance: 2
+  
+  # Whether to spawn Claydou with a custom name
+  use-custom-name: true
+  
+  # Custom name for spawned Claydou pigs
+  custom-name: '&d&lClaydou'
+  
+  # Whether Claydou pigs should be invulnerable
+  invulnerable: false
+  
+  # Whether Claydou pigs can be leashed
+  allow-leashing: true
+
+# Interaction Settings
+interaction:
+  # Whether to make Claydou face the player during interaction
+  face-player: true
+  
+  # Whether to stop Claydou's movement during interaction
+  stop-movement: true
+  
+  # Whether to prevent Claydou from targeting other entities during interaction
+  prevent-targeting: true
+  
+  # Cooldown between interactions (seconds)
+  cooldown: 0
+
+# Messages
+# Use & for color codes
+messages:
+  # Messages shown to players during interaction
+  interaction:
+    state-0: '&fOlá Claydou'
+    state-1: '&dOlá que bom ver você!!'
+    state-2: '&fOlá Claydou'
+    state-3: '&dOi, já falei contigo, tenha um bom dia!'
+  
+  # Command messages
+  command:
+    success: '&dUm novo Claydou foi criado!'
+    error: '&cOcorreu um erro ao criar o Claydou.'
+    no-permission: '&cVocê não tem permissão para usar este comando.'
+    player-only: 'Este comando só pode ser usado por jogadores.'
+
+# Advanced Settings
+# Only modify these if you know what you're doing
+advanced:
+  # Metadata keys
+  metadata:
+    interaction-key: 'claydou_interaction'
+    seen-player-key: 'has_seen_player'
+  
+  # Performance settings
+  performance:
+    # Maximum number of Claydou pigs per world
+    max-per-world: 50
+    
+    # Whether to remove inactive Claydou pigs
+    remove-inactive: false
+    
+    # Time before removing inactive Claydou pigs (minutes)
+    inactive-timeout: 30
