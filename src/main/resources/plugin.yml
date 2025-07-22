@@ -6,3 +6,8 @@ commands:
   claydou:
     description: Spawns a new Claydou pig
     usage: /claydou
+    permission: helloclaydou.spawn
+permissions:
+  helloclaydou.spawn:
+    description: Allows players to spawn Claydou pigs
+    default: op

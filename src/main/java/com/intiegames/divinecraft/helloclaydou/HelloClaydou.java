@@ -22,6 +22,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -80,8 +81,39 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
      */
     @Override
     public void onDisable() {
+        // Clean up metadata for all entities when plugin is disabled
+        for (org.bukkit.World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                if (entity.hasMetadata(CLAYDOU_INTERACTION_KEY)) {
+                    entity.removeMetadata(CLAYDOU_INTERACTION_KEY, this);
+                }
+                if (entity.hasMetadata(HAS_SEEN_PLAYER_KEY)) {
+                    entity.removeMetadata(HAS_SEEN_PLAYER_KEY, this);
+                }
+            }
+        }
+
         // Log plugin disabled message
         getLogger().info(languageManager.getMessage("plugin.disabled"));
+    }
+
+    /**
+     * Handles entity death events.
+     * 
+     * This method cleans up metadata when a Claydou pig dies to prevent memory leaks.
+     * 
+     * @param event The EntityDeathEvent containing information about the entity death
+     */
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+        // Clean up metadata when entity dies
+        if (entity.hasMetadata(CLAYDOU_INTERACTION_KEY)) {
+            entity.removeMetadata(CLAYDOU_INTERACTION_KEY, this);
+        }
+        if (entity.hasMetadata(HAS_SEEN_PLAYER_KEY)) {
+            entity.removeMetadata(HAS_SEEN_PLAYER_KEY, this);
+        }
     }
 
     /**
@@ -197,6 +229,12 @@ public class HelloClaydou extends JavaPlugin implements Listener, CommandExecuto
         // Handle player sender
         try {
             Player player = (Player) sender;
+
+            // Check if player has permission
+            if (!player.hasPermission("helloclaydou.spawn")) {
+                player.sendMessage(ChatColor.RED + "Você não tem permissão para usar este comando.");
+                return true;
+            }
 
             // Get spawn distance from config
             int spawnDistance = getConfig().getInt("settings.spawn-distance", 2);
