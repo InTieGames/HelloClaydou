@@ -1,0 +1,24 @@
+# Portuguese (Brazil) language file for HelloClaydou
+
+# Plugin messages
+plugin:
+  enabled: "claydouCommunicationPlugin habilitado."
+  disabled: "claydouCommunicationPlugin desabilitado."
+
+# Command messages
+command:
+  player-only: "Este comando só pode ser usado por jogadores."
+  success: "Um novo Claydou foi criado!"
+  error: "Erro ao criar Claydou: {0}"
+
+# Conversation messages
+conversation:
+  # Player messages (white text)
+  player:
+    greeting: "Olá Claydou"
+    
+  # Claydou messages (light purple text)
+  claydou:
+    welcome: "Olá que bom ver você!!"
+    goodbye: "Oi, já falei contigo, tenha um bom dia!"
+    restart: "Vamos conversar novamente!"

@@ -1,0 +1,24 @@
+# Hebrew language file for HelloClaydou
+
+# Plugin messages
+plugin:
+  enabled: "claydouCommunicationPlugin הופעל."
+  disabled: "claydouCommunicationPlugin הושבת."
+
+# Command messages
+command:
+  player-only: "פקודה זו יכולה להיות בשימוש רק על ידי שחקנים."
+  success: "נוצר Claydou חדש!"
+  error: "שגיאה ביצירת Claydou: {0}"
+
+# Conversation messages
+conversation:
+  # Player messages (white text)
+  player:
+    greeting: "שלום Claydou"
+    
+  # Claydou messages (light purple text)
+  claydou:
+    welcome: "שלום, טוב לראות אותך!!"
+    goodbye: "היי, כבר דיברתי איתך, שיהיה לך יום טוב!"
+    restart: "בוא נדבר שוב!"

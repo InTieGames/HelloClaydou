@@ -1,0 +1,24 @@
+# Russian language file for HelloClaydou
+
+# Plugin messages
+plugin:
+  enabled: "claydouCommunicationPlugin включен."
+  disabled: "claydouCommunicationPlugin выключен."
+
+# Command messages
+command:
+  player-only: "Эта команда может быть использована только игроками."
+  success: "Создан новый Claydou!"
+  error: "Ошибка при создании Claydou: {0}"
+
+# Conversation messages
+conversation:
+  # Player messages (white text)
+  player:
+    greeting: "Привет, Claydou"
+    
+  # Claydou messages (light purple text)
+  claydou:
+    welcome: "Привет, рад тебя видеть!!"
+    goodbye: "Привет, я уже говорил с тобой, хорошего дня!"
+    restart: "Давай поговорим снова!"

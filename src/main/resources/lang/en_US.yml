@@ -1,0 +1,24 @@
+# English (United States) language file for HelloClaydou
+
+# Plugin messages
+plugin:
+  enabled: "claydouCommunicationPlugin enabled."
+  disabled: "claydouCommunicationPlugin disabled."
+
+# Command messages
+command:
+  player-only: "This command can only be used by players."
+  success: "A new Claydou has been created!"
+  error: "Error creating Claydou: {0}"
+
+# Conversation messages
+conversation:
+  # Player messages (white text)
+  player:
+    greeting: "Hello Claydou"
+    
+  # Claydou messages (light purple text)
+  claydou:
+    welcome: "Hello, it's good to see you!!"
+    goodbye: "Hi, I've already talked to you, have a nice day!"
+    restart: "Let's talk again!"

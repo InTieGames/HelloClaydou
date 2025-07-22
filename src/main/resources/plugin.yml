@@ -2,3 +2,7 @@ name: HelloClaydou
 version: '${project.version}'
 main: com.intiegames.divinecraft.helloclaydou.HelloClaydou
 api-version: '1.20'
+commands:
+  claydou:
+    description: Spawns a new Claydou pig
+    usage: /claydou

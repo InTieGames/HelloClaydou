@@ -1,0 +1,13 @@
+# HelloClaydou Configuration
+
+# Default language for the plugin
+# Available options: pt_BR (Portuguese), en_US (English), es_ES (Spanish), ru_RU (Russian), he_IL (Hebrew)
+language: pt_BR
+
+# Debug mode (true/false)
+debug: false
+
+# Plugin settings
+settings:
+  # Distance to spawn the pig from the player (in blocks)
+  spawn-distance: 2
