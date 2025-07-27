@@ -6,7 +6,7 @@
 
   <groupId>com.intiegames.divinecraft</groupId>
   <artifactId>HelloClaydou</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>jar</packaging>
 
   <name>HelloClaydou</name>
